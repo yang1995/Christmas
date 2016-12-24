@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <link rel="stylesheet" href="css/reset.min.css"/>
+    <link rel="stylesheet" href="css/swiper.min.css"/>
+    <link rel="stylesheet" href="css/animate.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <style type="text/css">
+        html{
+            font-size: 20px;
+        }
+    </style>
+    <script>
+        //REM适配
+        ~(function(desW){
+            var winW = document.documentElement.clientWidth;
+            var n = winW/desW;
+            document.documentElement.style.fontSize = n*100+"px";
+        })(640);
+
+    </script>
+</head>
+<body>
+<div class="main">
+    <div class="music">
+        <audio src="audio/柏大輔 - A Rainy Morning ~Main Title~.mp3" loop preload="none" id="audioMusic"></audio>
+    </div>
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slide1" >
+            <img src="img/nav1.png" alt="">
+            <img src="img/tip2.png" alt="">
+            <img src="img/merry.png" alt="">
+            <img src="img/tip-arrow-top.png" alt="">
+            <div><span>娅暄</span></div>
+            <div><span>节日快乐！</span></div>
+        </div>
+        <div class="swiper-slide slide2" >
+            <div>&nbsp;&nbsp;&nbsp;四个多月不见了，但是我却很少联系你，并非我不想你，而是因为我在害怕。我曾听说：爱的最高境界，就是不敢面对所爱的人，因为她每一次的回眸，都能让我幸福的死去。我不怕死，可是我怕死去之后，再没有人像我一样爱你！</div>
+            <img src="img/tip-arrow-top.png" alt="">
+            <img src="img/tip3-1.png" alt="">
+        </div>
+        <div class="swiper-slide slide3" >
+            <img src="img/tip3-2.png" alt="">
+            <div>愿你</div>
+            <div>幸福每一天</div>
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+</body>
+</html>
+<script src="js/swiper.min.js"></script>
+
+<script>
+
+
+    //初始化swiper
+    var mySwiper = new Swiper(".swiper-container",{
+        direction : "vertical",
+        loop:true,
+        onSlideChangeEnd :function(swiper){
+            var slideAry = swiper.slides; /*所有的滑块*/
+            var trueSlideNum = slideAry.length-2;/*真实的滑块的个数*/
+            var lastNum =  trueSlideNum+1;/*最后一个滑块的索引*/
+            /*获得当前滑块的索引*/
+            var curIn = swiper.activeIndex;
+            [].forEach.call(slideAry,function(item,index){
+                item.id = null;
+                if(curIn == index){
+                    /*第一张跟真实滑块最后一张是一样的，最后一张跟真实滑块的第一张是一样*/
+                    switch(curIn){
+                        case 0 :
+                            item.id = "page"+trueSlideNum;
+                            break;
+                        case lastNum :
+                            item.id  = "page1";
+                            break;
+                        default :
+                            item.id = "page"+curIn;
+
+                    }
+                }
+
+            })
+
+        }
+    })
+
+    ~(function(){
+        var music = document.querySelector(".music");
+        var audioMusic = document.querySelector("#audioMusic");
+        music.addEventListener("click",function(){
+            if(audioMusic.paused){/*判断是否是停止*/
+                audioMusic.play();
+                music.className = "music musicMove";
+                return;
+            }
+            audioMusic.pause();
+            music.className = "music";
+            music.style.opacity  = 1;
+        })
+        window.setTimeout(function(){
+            audioMusic.play();/*播放*/
+            /*边播放边缓存，触发事件canplay*/
+            audioMusic.addEventListener("canplay",function(){
+                music.className = "music musicMove";
+            })
+        },1000)
+
+
+    })()
+
+</script>
